@@ -78,7 +78,11 @@ stop() {
     if [ $RETVAL -eq 0 ]; then
         while :
         do
-            ps aux | grep $prog | grep -v grep > /dev/null
+            if [ -x "`which ss`" ]; then
+                ss -pl | grep $prog > /dev/null
+            else
+                netstat -lp | grep $prog > /dev/null
+            fi
             if [ $? -ne 0 ]; then
                 break
             fi
