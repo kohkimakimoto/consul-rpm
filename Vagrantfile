@@ -19,10 +19,31 @@ Vagrant.configure(2) do |config|
       c.vm.hostname = "consul-rpm-#{platform}"
       c.vm.network :private_network, ip:"192.168.56.18#{index}"
 
+      case platform
+      when 'centos-5.10'
+        epel = "sudo rpm -Uvh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/5/x86_64/epel-release-5-4.noarch.rpm"
+        extra = "gcc44 gcc44-c++"
+      when 'centos-6.5'
+        epel = "sudo yum -y install http://ftp.riken.jp/Linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+        extra = ""
+      when 'centos-7.0'
+        epel = "sudo yum -y install epel-release"
+        extra = ""
+      else
+        raise "Unknown platform: #{platform}"
+      end
+
       c.vm.provision :shell, privileged: false, :inline => <<-EOT
         echo "Provisioning started, installing packages..."
+
+        echo "Install epel repository..."
+        #{epel}
+
+        echo "Cleaning generated directories..."
         rm -rf /vagrant/RPMS
         rm -rf /vagrant/SRPMS
+        rm -rf /vagrant/build/#{platform}
+
         sudo yum -y install rpmdevtools mock
 
         echo "Setting up rpm dev tree..."
@@ -49,7 +70,7 @@ Vagrant.configure(2) do |config|
 
         # copy created package to shared directroy
         mkdir -p /vagrant/build/#{platform}
-        cp -pr pkg/* /vagrant/build/#{platform}/
+        cp -pr /vagrant/RPMS/* /vagrant/build/#{platform}/
 
       EOT
 
