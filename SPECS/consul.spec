@@ -49,7 +49,7 @@ cp %{SOURCE5} %{buildroot}/%{_sysconfdir}/
 cp %{SOURCE6} %{buildroot}/%{_sysconfdir}/
 mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
 cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
-mkdir -p %{buildroot}/%{_sharedstatedir}/%{name}
+mkdir -p %{buildroot}/var/lib/%{name}
 mkdir -p %{buildroot}/%{_datadir}/%{name}-ui
 cp -r dist/* %{buildroot}/%{_prefix}/share/%{name}-ui
 
@@ -96,7 +96,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %dir %attr(755, root, root) %{_sysconfdir}/%{name}.d
 %attr(644, root, root) %{_sysconfdir}/consul.json
-%dir %attr(755, consul, consul) %{_sharedstatedir}/%{name}
+%dir %attr(755, consul, consul) /var/lib/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %if 0%{?fedora} >= 14 || 0%{?rhel} >= 7
 %{_unitdir}/%{name}.service
