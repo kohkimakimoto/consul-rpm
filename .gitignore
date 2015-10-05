@@ -4,3 +4,6 @@ RPMS/*
 SRPMS/*
 SOURCES/*.zip
 .tags
+build/*
+
+!.gitkeep

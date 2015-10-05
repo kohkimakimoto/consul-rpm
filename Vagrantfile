@@ -8,6 +8,7 @@ Vagrant.configure(2) do |config|
 
 %w{
     centos-6.5
+    centos-5.10
   }.each_with_index do |platform, index|
 
     config.vbguest.auto_update = false
@@ -45,6 +46,10 @@ Vagrant.configure(2) do |config|
         mkdir /vagrant/RPMS
         find $HOME/rpmbuild -type d -name "RPMS" -exec cp -r {} /vagrant/ \\;
         find $HOME/rpmbuild -type d -name "SRPMS" -exec cp -r {} /vagrant/ \\;
+
+        # copy created package to shared directroy
+        mkdir -p /vagrant/build/#{platform}
+        cp -pr pkg/* /vagrant/build/#{platform}/
 
       EOT
 

@@ -93,9 +93,9 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%dir %attr(750, root, consul) %{_sysconfdir}/%{name}.d
-%attr(640, root, consul) %{_sysconfdir}/consul.json
-%dir %attr(750, consul, consul) %{_sharedstatedir}/%{name}
+%dir %attr(755, root, root) %{_sysconfdir}/%{name}.d
+%attr(644, root, root) %{_sysconfdir}/consul.json
+%dir %attr(755, consul, consul) %{_sharedstatedir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %if 0%{?fedora} >= 14 || 0%{?rhel} >= 7
 %{_unitdir}/%{name}.service
@@ -106,7 +106,7 @@ rm -rf %{buildroot}
 
 %files ui
 %config(noreplace) %attr(-, root, consul) %{_prefix}/share/%{name}-ui
-%attr(640, root, consul) %{_sysconfdir}/consul-ui.json
+%attr(644, root, root) %{_sysconfdir}/consul-ui.json
 
 
 %doc
