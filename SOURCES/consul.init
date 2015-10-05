@@ -59,7 +59,7 @@ start() {
     daemon \
         --pidfile=$pidfile \
         --user=$user \
-        " { $exec agent $OPTIONS &>> $logfile & } ; echo \$! >| $pidfile "
+        " { $exec agent $OPTIONS >> $logfile & } ; echo \$! >| $pidfile "
 
     RETVAL=$?
     echo
