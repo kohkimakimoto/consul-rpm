@@ -46,7 +46,7 @@ mkdir -p %{buildroot}/%{_bindir}
 cp consul %{buildroot}/%{_bindir}
 mkdir -p %{buildroot}/%{_sysconfdir}/%{name}.d
 cp %{SOURCE5} %{buildroot}/%{_sysconfdir}/
-cp %{SOURCE6} %{buildroot}/%{_sysconfdir}/
+cp %{SOURCE6} %{buildroot}/%{_sysconfdir}/%{name}.d/
 mkdir -p %{buildroot}/%{_sysconfdir}/sysconfig
 cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 mkdir -p %{buildroot}/var/lib/%{name}
@@ -107,7 +107,7 @@ rm -rf %{buildroot}
 
 %files ui
 %config(noreplace) %attr(-, root, consul) %{_prefix}/share/%{name}-ui
-%attr(644, root, root) %{_sysconfdir}/consul-ui.json
+%attr(644, root, root) %{_sysconfdir}/consul.d/consul-ui.json
 
 
 %doc
