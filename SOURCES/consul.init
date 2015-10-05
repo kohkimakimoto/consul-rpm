@@ -23,6 +23,7 @@
 # refers to
 # https://gist.github.com/blalor/c325d500818361e28daf
 # https://github.com/tomhillable/consul-rpm/blob/master/SOURCES/consul.init
+# http://qiita.com/yunano/items/7ef5fa5670721de55627
 
 # source function library
 . /etc/rc.d/init.d/functions
@@ -70,12 +71,22 @@ start() {
 }
 
 stop() {
-    echo -n $"Shutting down $prog: "
+    echo -n $"Stopping $prog: "
     ## graceful shutdown with SIGINT
-    killproc -p $pidfile $exec -INT
+    killproc -p $pidfile $exec -INT 2 >> $logfile
     RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then
+        while :
+        do
+            ps aux | grep $prog | grep -v grep > /dev/null
+            if [ $? -ne 0 ]; then
+                break
+            fi
+            sleep 1
+        done
+        rm -f $pidfile $lockfile
+    fi
     echo
-    [ $RETVAL -eq 0 ] && rm -f $lockfile $pidfile
     return $RETVAL
 }
 
