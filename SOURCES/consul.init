@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # consul        Manage the consul agent
-#       
+#
 # chkconfig:   2345 95 95
 # description: Consul is a tool for service discovery and configuration
 # processname: consul
@@ -20,6 +20,10 @@
 # Description: Consul is a tool for service discovery and configuration
 ### END INIT INFO
 
+# refers to
+# https://gist.github.com/blalor/c325d500818361e28daf
+# https://github.com/tomhillable/consul-rpm/blob/master/SOURCES/consul.init
+
 # source function library
 . /etc/rc.d/init.d/functions
 
@@ -28,7 +32,7 @@ user="consul"
 exec="/usr/bin/$prog"
 pidfile="/var/run/$prog.pid"
 lockfile="/var/lock/subsys/$prog"
-logfile="/var/log/$prog"
+logfile="/var/log/$prog.log"
 
 # pull in sysconfig settings
 [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
@@ -37,6 +41,9 @@ export GOMAXPROCS=${GOMAXPROCS:-2}
 
 start() {
     [ -x $exec ] || exit 5
+
+    [ -f $conffile ] || exit 6
+    [ -d $confdir ] || exit 6
 
     umask 077
 
@@ -52,7 +59,7 @@ start() {
     daemon \
         --pidfile=$pidfile \
         --user=$user \
-        " { $exec $CMD_OPTS &>> $logfile & } ; echo \$! >| $pidfile "
+        " { $exec agent $OPTIONS &>> $logfile & } ; echo \$! >| $pidfile "
 
     RETVAL=$?
     echo
