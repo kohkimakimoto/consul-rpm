@@ -40,8 +40,6 @@ Vagrant.configure(2) do |config|
         #{epel}
 
         echo "Cleaning generated directories..."
-        rm -rf /vagrant/RPMS
-        rm -rf /vagrant/SRPMS
         rm -rf /vagrant/build/#{platform}
 
         sudo yum -y install rpmdevtools mock
@@ -64,9 +62,8 @@ Vagrant.configure(2) do |config|
         rpmbuild -ba rpmbuild/SPECS/consul.spec
 
         echo "Copying rpms back to shared folder..."
-        mkdir /vagrant/RPMS
-        find $HOME/rpmbuild -type d -name "RPMS" -exec cp -r {} /vagrant/build/#{platform}/ \\;
-        find $HOME/rpmbuild -type d -name "SRPMS" -exec cp -r {} /vagrant/build/#{platform}/ \\;
+        cp -pr $HOME/rpmbuild/RPMS /vagrant/build/#{platform}/
+        cp -pr $HOME/rpmbuild/SRPMS /vagrant/build/#{platform}/
 
       EOT
 

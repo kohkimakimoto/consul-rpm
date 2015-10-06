@@ -108,6 +108,7 @@ rm -rf %{buildroot}
 %endif
 %attr(755, root, root) %{_bindir}/consul
 %attr(644, root, root) %{_sysconfdir}/logrotate.d/%{name}
+%dir %attr(755, consul, consul) /var/log/%{name}
 
 %files ui
 %config(noreplace) %attr(-, root, consul) %{_prefix}/share/%{name}-ui

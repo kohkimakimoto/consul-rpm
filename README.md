@@ -1,7 +1,7 @@
 # RPM Spec for Consul
 
 This repository is a fork of [tomhillable/consul-rpm](https://github.com/tomhillable/consul-rpm).
-But it has been heavily modified.
+But it has been heavily modified for my purpose.
 
 ## Usage
 
