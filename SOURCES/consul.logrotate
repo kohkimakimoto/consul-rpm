@@ -1,0 +1,8 @@
+/var/log/consul/consul.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	notifempty
+	create 0644 consul consul
+}

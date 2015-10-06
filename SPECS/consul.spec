@@ -13,6 +13,7 @@ Source3:        %{name}.init
 Source4:        https://dl.bintray.com/mitchellh/%{name}/%{version}_web_ui.zip
 Source5:        %{name}.json
 Source6:        %{name}-ui.json
+Source7:        %{name}.logrotate
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 %if 0%{?fedora} >= 14 || 0%{?rhel} >= 7
@@ -52,6 +53,8 @@ cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 mkdir -p %{buildroot}/var/lib/%{name}
 mkdir -p %{buildroot}/%{_datadir}/%{name}-ui
 cp -r dist/* %{buildroot}/%{_prefix}/share/%{name}-ui
+mkdir -p %{buildroot}/%{_sysconfdir}/logrotate.d/
+cp %{SOURCE7} %{buildroot}/%{_sysconfdir}/logrotate.d/%{name}
 
 %if 0%{?fedora} >= 14 || 0%{?rhel} >= 7
 mkdir -p %{buildroot}/%{_unitdir}
@@ -104,6 +107,7 @@ rm -rf %{buildroot}
 %{_initrddir}/%{name}
 %endif
 %attr(755, root, root) %{_bindir}/consul
+%attr(644, root, root) %{_sysconfdir}/logrotate.d/%{name}
 
 %files ui
 %config(noreplace) %attr(-, root, consul) %{_prefix}/share/%{name}-ui

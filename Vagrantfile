@@ -65,12 +65,8 @@ Vagrant.configure(2) do |config|
 
         echo "Copying rpms back to shared folder..."
         mkdir /vagrant/RPMS
-        find $HOME/rpmbuild -type d -name "RPMS" -exec cp -r {} /vagrant/ \\;
-        find $HOME/rpmbuild -type d -name "SRPMS" -exec cp -r {} /vagrant/ \\;
-
-        # copy created package to shared directroy
-        mkdir -p /vagrant/build/#{platform}
-        cp -pr /vagrant/RPMS/* /vagrant/build/#{platform}/
+        find $HOME/rpmbuild -type d -name "RPMS" -exec cp -r {} /vagrant/build/#{platform}/ \\;
+        find $HOME/rpmbuild -type d -name "SRPMS" -exec cp -r {} /vagrant/build/#{platform}/ \\;
 
       EOT
 
