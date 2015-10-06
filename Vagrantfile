@@ -62,6 +62,7 @@ Vagrant.configure(2) do |config|
         rpmbuild -ba rpmbuild/SPECS/consul.spec
 
         echo "Copying rpms back to shared folder..."
+        mkdir -p /vagrant/build/#{platform}
         cp -pr $HOME/rpmbuild/RPMS /vagrant/build/#{platform}/
         cp -pr $HOME/rpmbuild/SRPMS /vagrant/build/#{platform}/
 

@@ -46,8 +46,6 @@ start() {
     [ -f $conffile ] || exit 6
     [ -d $confdir ] || exit 6
 
-    umask 077
-
     touch $logfile $pidfile
     chown $user:$user $logfile $pidfile
 
@@ -73,7 +71,7 @@ start() {
 stop() {
     echo -n $"Stopping $prog: "
     ## graceful shutdown with SIGINT
-    killproc -p $pidfile $exec -INT 2 >> $logfile
+    killproc -p $pidfile $exec -INT 2
     RETVAL=$?
     if [ $RETVAL -eq 0 ]; then
         while :
