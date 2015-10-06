@@ -55,6 +55,7 @@ mkdir -p %{buildroot}/%{_datadir}/%{name}-ui
 cp -r dist/* %{buildroot}/%{_prefix}/share/%{name}-ui
 mkdir -p %{buildroot}/%{_sysconfdir}/logrotate.d/
 cp %{SOURCE7} %{buildroot}/%{_sysconfdir}/logrotate.d/%{name}
+mkdir -p %{buildroot}/var/log/%{name}
 
 %if 0%{?fedora} >= 14 || 0%{?rhel} >= 7
 mkdir -p %{buildroot}/%{_unitdir}
